@@ -10,20 +10,48 @@ def main():
     if len(args) != 2:
         print("well thats just not ok")
 
-    train = pd.read_csv(args[0])
+    train = pd.read_csv(args[0], header=None)
+    test = pd.read_csv(args[1], header=None)
+    test = np.array(test)
+    train_test = np.array(train)
     train_x = pd.DataFrame(train.iloc[:, :-1])
     train_y = pd.DataFrame(train.iloc[:, -1])
+    types = ["entropy", "gini"]
 
+    print("---------------------------------")
+    print("| Training ID3 Algorithm Table  |")
+    print("---------------------------------")
+    print("| Type    | Max Depth | Score   |")
+    print("---------------------------------")
+    for i in range(1, 7):
+        for version in types:
+            tree = DTClassifier(i, train.columns[-1], version)
+            mytree = tree.fit(train_x, train_y)
+            if version == "gini":
+                version += "   "
+            acc = tree.score(train_test)
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "  |")
 
-    tree = DTClassifier(6, train.columns[-1], "gini")
-    mytree = tree.fit(train_x, train_y)
+    print("---------------------------------")
+    print("")
 
-    # Print the information gain of every split you make.
-    print("\nInfo Gain By Shifts")
-    print(tree.getShiftInfoGain())
+    print("---------------------------------")
+    print("| Testing ID3 Algorithm Table   |")
+    print("---------------------------------")
+    print("| Type    | Max Depth | Score   |")
+    print("---------------------------------")
+    for i in range(1, 7):
+        for version in types:
+            tree = DTClassifier(i, train.columns[-1], version)
+            mytree = tree.fit(train_x, train_y)
+            if version == "gini":
+                version += "   "
+            acc = tree.score(test)
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "  |")
+    print("---------------------------------")
+    
 
-    print("\nFormatted visualization of decision tree")
-    print(pprint.pprint(mytree))
+    
     
         
 
@@ -39,7 +67,7 @@ class DTClassifier():
         
 
     def fit(self, X, y, tree=None):
-        #self.modeClassification = y[0].mode()
+        self.modeClassification = y[self.labelName].mode()
         self.tree = self.decisionTree(X, y, depth=1)
         return self.tree
     
@@ -68,9 +96,9 @@ class DTClassifier():
                 tree[node][value] = availableOutputs[0]                                                    
             else:        
                 if len(branch_x.columns) == 1 and lastPass == False:
-                    tree[node][value] = self.decisionTree(branch_x, branch_y, None, True, depth=depth+1)
+                    tree[node][value] = self.decisionTree(branch_x, branch_y, depth+1, None, True)
                 else:
-                    tree[node][value] = self.decisionTree(branch_x.drop(node, axis=1), branch_y, depth=depth+1)
+                    tree[node][value] = self.decisionTree(branch_x.drop(node, axis=1), branch_y, depth+1)
 
         return tree
     
@@ -111,7 +139,6 @@ class DTClassifier():
             fraction = y[self.labelName].value_counts()[value]/len(y[self.labelName])
             gini += fraction*fraction
  
-        print((1 - gini))
         return (1 - gini)
     
     def attribute_entropy(self, X, y,attribute):
