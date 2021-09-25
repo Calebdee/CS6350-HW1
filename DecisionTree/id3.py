@@ -42,11 +42,11 @@ def main():
     train_y = pd.DataFrame(train.iloc[:, -1])
     types = ["entropy", "gini", "majorityError"]
 
-    print("-------------------------------------------------------")
-    print("| ID3 Algorithm Table on car data                      |")
-    print("-------------------------------------------------------")
-    print("| Type          | Max Depth | Train Score | Test Score |")
-    print("-------------------------------------------------------")
+    print("-------------------------------------------------------", flush=True)
+    print("| ID3 Algorithm Table on car data                      |", flush=True)
+    print("-------------------------------------------------------", flush=True)
+    print("| Type          | Max Depth | Train Score | Test Score |", flush=True)
+    print("-------------------------------------------------------", flush=True)
     for i in range(1, 7):
         for version in types:
             tree = DTClassifier(i, train.columns[-1], version)
@@ -57,15 +57,15 @@ def main():
                 version += "      "
             acc2 = tree.score(test)
             acc = tree.score(train_test)
-            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |")
-        print("-------------------------------------------------------")
-    print("-----------------------------------------------------")
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |",  flush=True)
+        print("-------------------------------------------------------", flush=True)
+    print("-----------------------------------------------------", flush=True)
 
-    print("-------------------------------------------------------")
-    print("| ID3 Algorithm Table on bank data - leave unknown     |")
-    print("-------------------------------------------------------")
-    print("| Type          | Max Depth | Train Score | Test Score |")
-    print("-------------------------------------------------------")
+    print("-------------------------------------------------------", flush=True)
+    print("| ID3 Algorithm Table on bank data - leave unknown     |", flush=True)
+    print("-------------------------------------------------------", flush=True)
+    print("| Type          | Max Depth | Train Score | Test Score |", flush=True)
+    print("-------------------------------------------------------", flush=True)
     for i in range(1, 17):
         for version in types:
             tree = DTClassifier(i, train2.columns[-1], version)
@@ -76,9 +76,9 @@ def main():
                 version += "      "
             acc2 = tree.score(test2)
             acc = tree.score(train2_test)
-            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |")
-        print("-------------------------------------------------------")
-    print("-----------------------------------------------------")
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |", flush=True)
+        print("-------------------------------------------------------", flush=True)
+    print("-----------------------------------------------------", flush=True)
 
     for column in test2:
     	if(is_numeric_dtype(test2[column])):
@@ -95,11 +95,11 @@ def main():
     train2_y = pd.DataFrame(train2.iloc[:, -1])
     test2 = np.array(test2)
     train2_test = np.array(train2)
-    print("-------------------------------------------------------")
-    print("| ID3 Algorithm Table on bank data - replace unknown   |")          
-    print("-------------------------------------------------------")
-    print("| Type          | Max Depth | Train Score | Test Score |")
-    print("-------------------------------------------------------")
+    print("-------------------------------------------------------", flush=True)
+    print("| ID3 Algorithm Table on bank data - replace unknown   |",  flush=True)          
+    print("-------------------------------------------------------", flush=True)
+    print("| Type          | Max Depth | Train Score | Test Score |",  flush=True)
+    print("-------------------------------------------------------", flush=True)
     for i in range(1, 17):
         for version in types:
             tree = DTClassifier(i, train2.columns[-1], version)
@@ -110,9 +110,9 @@ def main():
                 version += "      "
             acc2 = tree.score(test2)
             acc = tree.score(train2_test)
-            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |")
-        print("-------------------------------------------------------")
-    print("-----------------------------------------------------")
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |", flush=True)
+        print("-------------------------------------------------------", flush=True)
+    print("-----------------------------------------------------", flush=True)
 
 
     
