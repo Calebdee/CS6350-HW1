@@ -4,11 +4,35 @@ import math
 import pprint
 import numpy as np
 from numpy import log2 as log
+from pandas.api.types import is_string_dtype
+from pandas.api.types import is_numeric_dtype
 
 def main():
     args = sys.argv[1:]
-    if len(args) != 2:
+    if len(args) != 4:
         print("well thats just not ok")
+
+    train2 = pd.read_csv(args[2], header=None)
+    test2 = pd.read_csv(args[3], header=None)
+    
+    
+
+    for column in train2:
+    	if(is_numeric_dtype(train2[column])):
+    		med = train2[column].median()
+    		train2[column] = train2[column] >= med
+    	else:
+    		mode = train2[column].mode()[0]
+    		if mode == "unknown":
+    			mode = train2[column].value_counts()[1:2].index.tolist()[0]
+    			
+    		train2[column] = train2[column].replace('unknown', mode)
+    
+
+    train2_x = pd.DataFrame(train2.iloc[:, :-1])
+    train2_y = pd.DataFrame(train2.iloc[:, -1])
+    test2 = np.array(test2)
+    train2_test = np.array(train2)
 
     train = pd.read_csv(args[0], header=None)
     test = pd.read_csv(args[1], header=None)
@@ -18,11 +42,11 @@ def main():
     train_y = pd.DataFrame(train.iloc[:, -1])
     types = ["entropy", "gini", "majorityError"]
 
-    print("---------------------------------------")
-    print("| Training ID3 Algorithm Table        |")
-    print("---------------------------------------")
-    print("| Type          | Max Depth | Score   |")
-    print("---------------------------------------")
+    print("-------------------------------------------------------")
+    print("| ID3 Algorithm Table on car data                      |")
+    print("-------------------------------------------------------")
+    print("| Type          | Max Depth | Train Score | Test Score |")
+    print("-------------------------------------------------------")
     for i in range(1, 7):
         for version in types:
             tree = DTClassifier(i, train.columns[-1], version)
@@ -31,28 +55,66 @@ def main():
                 version += "         "
             if version == "entropy":
                 version += "      "
+            acc2 = tree.score(test)
             acc = tree.score(train_test)
-            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "  |")
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |")
+        print("-------------------------------------------------------")
+    print("-----------------------------------------------------")
 
-    print("---------------------------------------")
-    print("")
-
-    print("---------------------------------------")
-    print("| Testing ID3 Algorithm Table         |")
-    print("---------------------------------------")
-    print("| Type          | Max Depth | Score   |")
-    print("---------------------------------------")
-    for i in range(1, 7):
+    print("-------------------------------------------------------")
+    print("| ID3 Algorithm Table on bank data - leave unknown     |")
+    print("-------------------------------------------------------")
+    print("| Type          | Max Depth | Train Score | Test Score |")
+    print("-------------------------------------------------------")
+    for i in range(1, 17):
         for version in types:
-            tree = DTClassifier(i, train.columns[-1], version)
-            mytree = tree.fit(train_x, train_y)
+            tree = DTClassifier(i, train2.columns[-1], version)
+            mytree = tree.fit(train2_x, train2_y)
             if version == "gini":
                 version += "         "
             if version == "entropy":
                 version += "      "
-            acc = tree.score(test)
-            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "  |")
-    print("---------------------------------------")
+            acc2 = tree.score(test2)
+            acc = tree.score(train2_test)
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |")
+        print("-------------------------------------------------------")
+    print("-----------------------------------------------------")
+
+    for column in test2:
+    	if(is_numeric_dtype(test2[column])):
+    		med = test2[column].median()
+    		test2[column] = test2[column] >= med
+    	else:
+    		mode = test2[column].mode()[0]
+    		if mode == "unknown":
+    			mode = test2[column].value_counts()[1:2].index.tolist()[0]
+    			
+    		test2[column] = test2[column].replace('unknown', mode)
+
+    train2_x = pd.DataFrame(train2.iloc[:, :-1])
+    train2_y = pd.DataFrame(train2.iloc[:, -1])
+    test2 = np.array(test2)
+    train2_test = np.array(train2)
+    print("-------------------------------------------------------")
+    print("| ID3 Algorithm Table on bank data - replace unknown   |"                      |")
+    print("-------------------------------------------------------")
+    print("| Type          | Max Depth | Train Score | Test Score |")
+    print("-------------------------------------------------------")
+    for i in range(1, 17):
+        for version in types:
+            tree = DTClassifier(i, train2.columns[-1], version)
+            mytree = tree.fit(train2_x, train2_y)
+            if version == "gini":
+                version += "         "
+            if version == "entropy":
+                version += "      "
+            acc2 = tree.score(test2)
+            acc = tree.score(train2_test)
+            print("| " + version + " | " + str(i) + "         | " + "{:.4f}".format(acc) + "      | " + "{:.4f}".format(acc2) + "     |")
+        print("-------------------------------------------------------")
+    print("-----------------------------------------------------")
+
+
     
 
     
@@ -115,8 +177,6 @@ class DTClassifier():
                 infoGains.append(self.gini(X, y)-self.attribute_gini(X, y,key))
             if self.learnType == "majorityError":
                 infoGains.append(self.majorityError(X, y)-self.attribute_majorityError(X, y,key))
-                #print(infoGains)
-            
         
         if infoGains[np.argmax(infoGains)] > 0:
             self.shiftInfoGain.append(infoGains[np.argmax(infoGains)])
