@@ -96,7 +96,7 @@ def main():
     test2 = np.array(test2)
     train2_test = np.array(train2)
     print("-------------------------------------------------------")
-    print("| ID3 Algorithm Table on bank data - replace unknown   |"                      |")
+    print("| ID3 Algorithm Table on bank data - replace unknown   |")                      |")
     print("-------------------------------------------------------")
     print("| Type          | Max Depth | Train Score | Test Score |")
     print("-------------------------------------------------------")
