@@ -18,10 +18,11 @@ def main():
 		class_prop = (sum(train_y == classification)) / len(train_y)
 		entropy = class_prop * math.log2(class_prop)
 		total_entropy += entropy
+	total_entropy *= -1
 
+	igs = {}
 	for classification in train_x.columns:
 		average_entropy = 0
-		print(classification)
 		for classif in train_x[classification].unique():
 			for label in classifications:
 				count = sum(train_y[train_x[classification] == classif] == label)
@@ -29,8 +30,12 @@ def main():
 				
 				if label_prop > 0:
 					average_entropy += (sum(train_x[classification] == classif) / len(train_x[classification])) * label_prop * math.log2(label_prop)
-		print(average_entropy)
-	print(-1*total_entropy)
+		average_entropy *= -1
+		igs[classification] = total_entropy - average_entropy
+	
+	split_att = max(igs, key = igs.get)
+	print(train_x.loc[:, train_x.columns != split_att])
+	
 
 
 def DecisionTree():
