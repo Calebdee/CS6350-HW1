@@ -3,6 +3,7 @@ import pandas as pd
 import math
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
+from matplotlib import pyplot as plt
 
 def main():
 	args = sys.argv[1:]

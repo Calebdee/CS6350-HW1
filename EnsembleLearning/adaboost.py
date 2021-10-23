@@ -47,7 +47,6 @@ def main():
     
 
 class AdaBoost:
-    
     def __init__(self):
         self.alphas = []
         self.Model = []

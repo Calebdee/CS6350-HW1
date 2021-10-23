@@ -7,6 +7,7 @@ import numpy as np
 from sklearn import preprocessing 
 from id3 import DTClassifier
 from collections import Counter
+from matplotlib import pyplot as plt
 
 def main():
 	args = sys.argv[1:]
