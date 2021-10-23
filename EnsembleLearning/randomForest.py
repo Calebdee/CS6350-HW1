@@ -16,8 +16,12 @@ def main():
 	y = y.apply(LabelEncoder().fit_transform).to_numpy()
 	t_y = pd.DataFrame(train.iloc[:, -1]).apply(LabelEncoder().fit_transform).to_numpy()
 
+	features = [2, 4, 6]
 	y_preds = {}
 	t_y_preds = {}
+
+	training_acc = []
+	testing_acc = []
 
 
 	for j in range(2, 501):
@@ -52,9 +56,15 @@ def main():
 		for i in range(train.shape[0]):
 			if most_common(t_y_preds.get(i)) == t_y[i]:
 				train_correct += 1
-		print("| " + str(j-1) + "             | " + str(test_correct / test.shape[0]) + " | " + str(train_correct / train.shape[0]))
 		y_preds.clear()
 		t_y_preds.clear()
+	plt.plot(list(range(1, 501)), training_acc)
+	plt.plot(list(range(1, 501)), testing_acc)
+	plt.xlabel('Number of Trees')
+	plt.ylabel('Accuracy')
+	plt.title('RandomForest Training and Test Accuracies')
+	plt.legend(["Train",  "Test"])
+	plt.show()
 
 def most_common(lst):
     return max(set(lst), key=lst.count)

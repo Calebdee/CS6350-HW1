@@ -9,6 +9,7 @@ from pandas.api.types import is_numeric_dtype
 from sklearn.tree import DecisionTreeClassifier
 
 from sklearn import preprocessing 
+from matplotlib import pyplot as plt
 
 def main():
     args = sys.argv[1:]
@@ -18,7 +19,7 @@ def main():
     train = pd.read_csv(args[0], header=None)
     train =  train.apply(preprocessing.LabelEncoder().fit_transform)
     test = pd.read_csv(args[1], header=None)
-    #test = np.array(test)
+
     train_test = np.array(train)
     train_x = pd.DataFrame(train.iloc[:, :-1])
     train_y = pd.DataFrame(train.iloc[:, -1])
@@ -28,9 +29,22 @@ def main():
     train_x = train_x.apply(LabelEncoder().fit_transform)
     types = ["entropy", "gini", "majorityError"]
 
-    ada = AdaBoost()
-    myAda = ada.fit(train_x, train_y)
-    ada.score(test_x, test_y)
+    training_acc = []
+    testing_acc = []
+    for i in range(1, 501):
+        ada = AdaBoost()
+        myAda = ada.fit(train_x, train_y, i)
+        train_acc = ada.score(train_x, train_y)
+        test_acc = ada.score(test_x, test_y)
+
+    plt.plot(list(range(1, 501)), training_acc)
+    plt.plot(list(range(1, 501)), testing_acc)
+    plt.xlabel('Number of Iterations')
+    plt.ylabel('Accuracy')
+    plt.title('Adaboost Training and Test Accuracies')
+    plt.legend(["Train",  "Test"])
+    plt.show()
+    
 
 class AdaBoost:
     
@@ -66,7 +80,7 @@ class AdaBoost:
 
             alpha_m = self.calculate_alpha(error_m)
             self.alphas.append(alpha_m)
-            
+
     def score(self, X, y):
         model = self.Model[self.M-1]
         return model.score(X, y)
@@ -87,3 +101,6 @@ class AdaBoost:
         	w_i[i] += w_i[i]  * math.exp(-1*alpha * (y[i] * y_pred[i]))
         w_i = (w_i / sum(w_i))
         return w_i
+
+if __name__ == "__main__":
+    main()

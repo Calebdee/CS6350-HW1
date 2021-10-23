@@ -21,8 +21,10 @@ def main():
 
 	y_preds = {}
 	t_y_preds = {}
-	
-	print("| Number of Trees | Test Accuracy | Training Accuracy |")
+
+	training_acc = []
+	testing_acc = []
+
 	for j in range(2, 501):
 		for i in range(1, j):
 			train_sample = train.sample(frac=1.0, replace=True).reset_index(drop=True)
@@ -56,9 +58,17 @@ def main():
 			if most_common(t_y_preds.get(i)) == t_y[i]:
 				train_correct += 1
 
-		print("| " + str(j-1) + "             | " + str(test_correct / test.shape[0]) + " | " + str(train_correct / train.shape[0]))
+		training_acc.append(train_correct / train.shape[0])
+		training_acc.append(test_correct / test.shape[0])
 		y_preds.clear()
 		t_y_preds.clear()
+	plt.plot(list(range(1, 501)), training_acc)
+	plt.plot(list(range(1, 501)), testing_acc)
+	plt.xlabel('Number of Trees')
+	plt.ylabel('Accuracy')
+	plt.title('Bagging Training and Test Accuracies')
+	plt.legend(["Train",  "Test"])
+	plt.show()
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
