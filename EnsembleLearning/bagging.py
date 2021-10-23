@@ -4,8 +4,6 @@ import math
 import pprint
 import numpy as np
 
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import AdaBoostClassifier
 from sklearn import preprocessing 
 from id3 import DTClassifier
 from collections import Counter
