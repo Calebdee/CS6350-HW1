@@ -26,6 +26,7 @@ def main():
 
 	print("Number of Distinct Weight Vectors: " + str(len(percep.Cms)))
 	print("Weight vectors are linked in csv, below is counts per distinct weight vector")
+	print(len(percep.Cms))
 	print(percep.Cms)
 	print("Calculating training error, please hold tight")
 	print(1 - percep.score(train_x, train_y))

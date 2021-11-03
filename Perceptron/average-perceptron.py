@@ -48,7 +48,7 @@ class AveragePerceptron():
 				if self.sign(y[index]) != y_prime:
 					w = w + (self.lr * (self.sign(y[index])*row))
 				self.a = self.a + w
-		print(self.a)
+		return self.a
 
 	def score(self, X, y):
 		correct = 0

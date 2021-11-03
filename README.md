@@ -7,3 +7,23 @@
 # score(X, y), takes in data and computes the accuracy score.
 
 # predict(X), leveraged by score, but also takes data and predicts the label
+
+# Adaboost
+
+# fit(X, y, M=100), takes the training data and labels and runs the adaboost learning algorithm on it, iteratively updating results. M is an optional hyperparameter that gives the number of iterations.
+
+# score(X, y),  takes in data and computes the accuracy score.
+
+# calculate_error, calculate_alpha, and update_weights are all helper methods
+
+# Bagging
+
+# I'll be honest, HW2 was a mess for me, currently bagging takes command line arguments for the training and test sets and computes accuracy
+
+# Random Forest
+
+# Similar situation as above. It was a rough time for me, and I am just moving on from it and trying to do better going forward!
+
+# LMS
+
+# The story continues

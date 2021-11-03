@@ -44,7 +44,7 @@ class Perceptron():
 			# We want to shuffle the rows of the dataset at each pass-through
 			X = shuffle(X)
 			for index, row in X.iterrows():
-				row = row.append(pd.Series([1]), ignore_index=True)
+				row = pd.Series([1]).append(row, ignore_index=True)
 
 				y_prime = self.sign(self.weights.dot(row))
 				if self.sign(y[index]) != y_prime:
@@ -65,7 +65,7 @@ class Perceptron():
 	def predict(self, X):
 		preds = []
 		for index, row in X.iterrows():
-			row = row.append(pd.Series([1]), ignore_index=True)
+			row = pd.Series([1]).append(row, ignore_index=True)
 			preds.append(self.sign(self.weights.dot(row)))
 		return pd.Series(preds)
 
