@@ -2,19 +2,19 @@
 
 ### To run the decision tree algorithm, you can use the run.sh script in the DecisionTree directory. The decision tree class has the follows methods to be used. 
 ### Decision Tree
-fit(X, y), takes training data and labels and computes information at each level to split the decision tree properly.
+* fit(X, y), takes training data and labels and computes information at each level to split the decision tree properly.
 <br>
-score(X, y), takes in data and computes the accuracy score.
+* score(X, y), takes in data and computes the accuracy score.
 <br>
 predict(X), leveraged by score, but also takes data and predicts the label
 <br>
 ### Adaboost
 
-fit(X, y, M=100), takes the training data and labels and runs the adaboost learning algorithm on it, iteratively updating results. M is an optional hyperparameter that gives the number of iterations.
+* fit(X, y, M=100), takes the training data and labels and runs the adaboost learning algorithm on it, iteratively updating results. M is an optional hyperparameter that gives the number of iterations.
 <br>
-score(X, y),  takes in data and computes the accuracy score.
+* score(X, y),  takes in data and computes the accuracy score.
 <br>
-calculate_error, calculate_alpha, and update_weights are all helper methods
+* calculate_error, calculate_alpha, and update_weights are all helper methods
 <br>
 ### Bagging
 
