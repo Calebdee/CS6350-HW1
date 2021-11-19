@@ -25,21 +25,21 @@ Similar situation as above. It was a rough time for me, and I am just moving on 
 The story continues
 
 ### Standard Perceptron
-Parameters
+##### Parameters
 * lr - learning rate
 * epochs - number of epoches that the Perceptron will run for, default 10
-<br>Methods
+##### Methods
 * fit(X, y)	takes the training data and labels as input, updates weights and bias
 * score(X, y)	take the instances and labels and returns an accuracy
 * predict(X)	takes instances and provides predicted labels
 * sign(value)	takes a value and transforms it to -1 and 1
 
 ### Voted Perceptron
-Parameters
+##### Parameters
 * Cms
 * lr
 * epochs
-Methods
+##### Methods
 * fit(X, y)
 * score(X, y)
 * predict(X)
