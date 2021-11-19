@@ -28,7 +28,7 @@ The story continues
 Parameters
 * lr - learning rate
 * epochs - number of epoches that the Perceptron will run for, default 10
-Methods
+<br>Methods
 * fit(X, y)	takes the training data and labels as input, updates weights and bias
 * score(X, y)	take the instances and labels and returns an accuracy
 * predict(X)	takes instances and provides predicted labels
