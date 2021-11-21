@@ -44,51 +44,46 @@ class KernelPerceptron():
         self.kernel = kernel
         self.T = T
         self.gamma = gamma
+        self.alpha = 5
 
     def fit(self, X, y):
-        n_samples, n_features = X.shape
-        self.alpha = np.zeros(n_samples, dtype=np.float64)
+        threshold = 1e-10
+        self.alpha = np.zeros(X.shape[0], dtype=np.float64)
 
-        K = np.zeros((n_samples, n_samples))
-        for i in range(n_samples):
-            for j in range(n_samples):
+        K = np.zeros((X.shape[0], X.shape[0]))
+        for i in range(X.shape[0]):
+            for j in range(X.shape[0]):
                 if self.kernel == "gaussian":
                     K[i,j] = self.gaussian(X[i], X[j], self.gamma)
+                elif self.kernel == "linear":
+                    K[i,j] = self.linear(X[i], X[j])
 
         for t in range(self.T):
-            for i in range(n_samples):
+            for i in range(X.shape[0]):
                 if np.sign(np.sum(K[:,i] * self.alpha * y)) != y[i]:
                     self.alpha[i] += 1.0
 
-        # Support vectors
-        sv = self.alpha > 1e-5
-        ind = np.arange(len(self.alpha))[sv]
-        self.alpha = self.alpha[sv]
-        self.sv = X[sv]
-        self.sv_y = y[sv]
-        print("%d support vectors out of %d points" % (len(self.alpha),
-                                                       n_samples))
+        support_vectors = self.alpha > threshold
+        ind = np.arange(len(self.alpha))[support_vectors]
+        self.alpha = self.alpha[support_vectors]
+        self.support_vectors = X[support_vectors]
+        self.support_vectors_y = y[support_vectors]
 
-    def project(self, X):
+    def dual_objective(self, X):
         y_predict = np.zeros(len(X))
         for i in range(len(X)):
             s = 0
-            for a, sv_y, sv in zip(self.alpha, self.sv_y, self.sv):
-                s += a * sv_y * self.gaussian(X[i], sv, self.gamma)
+            for alph, support_vectors_y, support_vectors in zip(self.alpha, self.support_vectors_y, self.support_vectors):
+                s += alph * support_vectors_y * self.gaussian(X[i], support_vectors, self.gamma)
             y_predict[i] = s
         return y_predict
 
     def predict(self, X):
         X = np.atleast_2d(X)
-        n_samples, n_features = X.shape
-        #np.hstack((X, np.ones((n_samples, 1))))
-        return np.sign(self.project(X))
+        return np.sign(self.dual_objective(X))
 
-    def linear_kernel(self, x1, x2):
+    def linear(self, x1, x2):
         return np.dot(x1, x2)
-
-    def polynomial_kernel(self, x, y, p=3):
-        return (1 + np.dot(x, y)) ** p
 
     def gaussian(self, X, y, gamma):
         return np.exp(-(np.linalg.norm(X-y, ord=2)**2) / gamma)
