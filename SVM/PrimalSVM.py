@@ -1,7 +1,6 @@
 import sys
 import pandas as pd
 import math
-from sklearn.utils import shuffle
 import numpy as np
 
 def main():
