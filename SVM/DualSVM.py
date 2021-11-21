@@ -28,22 +28,22 @@ def main():
 
 	lr_update1 = lambda t : gamma_0 / (1 + (gamma_0/alpha)*t)
 	lr_update2 = lambda t : gamma_0 / (1 + t)
-	Cs = [500/873]
+	Cs = [100/873, 500/873, 700/873]
 	gamma = [0.1, 0.5, 1.0, 5.0, 100.0]
-	# print("========================================================")
-	# print("| Dual Domain - SsGD - Linear                          |")
-	# print("========================================================")
-	# for c in Cs:
-	# 	# gamm in gamma:
-	# 	svm = DualSVM(train_x, train_y, C=c, kernel="linear", gamma=None)
-	# 	svm.fit(train_x, train_y)
-	# 	print("| C with a value of " + str(round(c*873)) + "/873                            |")
-	# 	print("| Learned Weights: " + str(svm.wstar) + "                            |")
-	# 	print("| Learned Bias: " + str(svm.bstar) + "                                       |")
-	# 	print("| Learned Support Trees: " + str(len(svm.support_vectors)) + "                   |")
-	# 	print("| Training Accuracy: %.3f" % svm.score(train_x, train_y) + "                             |")
-	# 	print("| Testing Accuracy: %.3f" % svm.score(test_x, test_y) + "                              |")
-	#	print("========================================================")
+	print("========================================================")
+	print("| Dual Domain - SsGD - Linear                          |")
+	print("========================================================")
+	for c in Cs:
+		# gamm in gamma:
+		svm = DualSVM(train_x, train_y, C=c, kernel="linear", gamma=None)
+		svm.fit(train_x, train_y)
+		print("| C with a value of " + str(round(c*873)) + "/873                            |")
+		print("| Learned Weights: " + str(svm.wstar) + "                            |")
+		print("| Learned Bias: " + str(svm.bstar) + "                                       |")
+		print("| Learned Support Trees: " + str(len(svm.support_vectors)) + "                   |")
+		print("| Training Accuracy: %.3f" % svm.score(train_x, train_y) + "                             |")
+		print("| Testing Accuracy: %.3f" % svm.score(test_x, test_y) + "                              |")
+		print("========================================================")
 
 	svs = []
 	print("========================================================")
