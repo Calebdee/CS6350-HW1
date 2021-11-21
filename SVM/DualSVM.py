@@ -66,7 +66,7 @@ def main():
 	for i in range(len(svs)):
 		count = 0
 		for v in np.array(svs[i]):
-			if v in np.array(sv[i+1]):
+			if v in np.array(svs[i+1]):
 				count += 1
 
 		print("Overlap " + str(gamma[i]) + " to " + str(gamma[i+1]) + ": " + str(count))
