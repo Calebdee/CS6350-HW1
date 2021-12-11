@@ -29,23 +29,25 @@ def main():
         net = NeuralNetwork(Layer.create_layers(3, 4, weight, 1))
         print("========================================")
         print("3 Layers - Width = " + str(weight))
-        training_acc = net.fit(35, net, train_x, train_y, lr_0 = gammas[count], d = 1)
+        training_acc = net.fit(net, train_x, train_y, lr_0 = gammas[count], d = 1)
         print("training error: " + str(sum(training_acc)/len(training_acc)))
         testing_acc = net.score(net, test_x, test_y)
         count += 1
 
 
-
 class NeuralNetwork:
     def __init__(self, layers):
         self.layers = layers
+        self.epochs = 50
 
-    def fit(self, num_epochs, net, X, y, lr_0 = 0.5, d = 1):
+    def fit(self, net, X, y, lr_0 = 0.5, d = 1):
         all_losses = []
 
-        for e in range(num_epochs):
+        for e in range(self.epochs):
             losses = []
             idxs = np.arange(len(X))
+
+            # Reshuffle the data at the beginning of each epoch
             np.random.shuffle(idxs)
             for i in idxs:
                 y_pred, zs = self.forward(X[i])
@@ -62,7 +64,7 @@ class NeuralNetwork:
         for i in range(len(X)):
             y_pred, _ = self.forward(X[i])
             losses.append(self.square_loss(y_pred, y[i]))
-        print(f"testing error: {np.mean(losses)}")
+        print("testing error:" + str(np.mean(losses)))
 
         return np.mean(losses)
 
