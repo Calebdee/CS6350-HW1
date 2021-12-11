@@ -55,3 +55,47 @@ Methods
 * score(X, y)
 * predict(X)
 * sign(value)
+
+### PrimalSVM
+Parameters
+* epochs
+* lr_update
+* C
+* bias
+* weights
+Methods
+* fit(X, y)
+* score(X, y)
+* predict(X)
+
+### DualSVM
+Parameters
+* C
+* kernel
+* gamma
+* wstar
+* bstar
+* C
+* gamma
+* support_vectors
+Methods
+* fit(X, y)
+* linear(X)
+* gaussian(X, y, gamma)
+* dual_objective(a, X, y)
+* score(X, y)
+* predict(X, kernel)
+
+### KernelPerceptron
+Parameters
+* kernel
+* T
+* gamma
+* alpha
+Methods
+* fit(X, y)
+* dual_objective(X)
+* predict(X)
+* linear(X1, X2)
+* gaussian(X, y, gamma)
+
