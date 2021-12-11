@@ -41,7 +41,7 @@ class NeuralNetwork:
         self.epochs = 50
 
     def fit(self, net, X, y, lr_0 = 0.5, d = 1):
-        all_losses = []
+        iter_losses = []
 
         for e in range(self.epochs):
             losses = []
@@ -53,11 +53,12 @@ class NeuralNetwork:
                 y_pred, zs = self.forward(X[i])
                 losses.append(self.square_loss(y_pred, y[i]))
 
+                # Update learning rate by this learning function
                 lr = lr_0 / (1 + (lr_0/d)*e)
                 self.backward(zs, y[i], lr)
-            all_losses.append(np.mean(losses))
+            iter_losses.append(np.mean(losses))
 
-        return all_losses
+        return iter_losses
 
     def score(self, net, X, y):
         losses = []
