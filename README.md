@@ -1,4 +1,4 @@
-# This is a machine learning library developed by Caleb Johnson for CS5350/6350 in University of Utah
+# This is a machine learning library developed by Caleb Johnson
 
 ### To run the decision tree algorithm, you can use the run.sh script in the DecisionTree directory. The decision tree class has the follows methods to be used. 
 ### Decision Tree
